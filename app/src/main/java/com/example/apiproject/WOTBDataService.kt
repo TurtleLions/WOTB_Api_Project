@@ -6,9 +6,14 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WOTBDataService {
-    @GET("account/list/?application_id={app_id}&search={playerName}.json")
+    @GET("account/list/")
     fun getPlayerWrapper(
-        @Path("app_id") app_id: String,
-        @Path("playerName") playerName: String
+        @Query("application_id") app_id: String,
+        @Query("search") playerName: String
     ) : Call<PlayerWrapper>
+    @GET("account/info/")
+    fun getPlayerData(
+        @Query("application_id") app_id: String,
+        @Query("account_id") account_id: Int
+    )
 }
