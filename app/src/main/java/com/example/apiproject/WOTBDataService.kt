@@ -15,5 +15,14 @@ interface WOTBDataService {
     fun getPlayerData(
         @Query("application_id") app_id: String,
         @Query("account_id") account_id: Int
-    )
+    ) :Call<PlayerData>
+    @GET("tanks/stats/")
+    fun getPlayerTankData(
+        @Query("application_id") app_id: String,
+        @Query("account_id") account_id: Int
+    ):Call<PlayerTankData>
+    @GET("encyclopedia/vehicles/")
+    fun getTankData(
+        @Query("application_id") app_id: String
+    ):Call<TankData>
 }
