@@ -19,18 +19,16 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
     companion object{
         const val TAG = "Main Activity"
-        val EXTRA_PLAYER = "Player"
         val EXTRA_PLAYERWRAPPER = "Player Wrapper"
         val EXTRA_PLAYERDATA = "Player Data"
         val EXTRA_PLAYERTANKDATA = "Player Tank Data"
         val EXTRA_TANKDATA = "Tank Data"
     }
     lateinit var playerName: String
-    private lateinit var player:Player
-    var playerWrapper: PlayerWrapper? = null
-    var playerData: PlayerData? = null
-    var playerTankData: PlayerTankData? = null
-    var tankData: TankData? = null
+    lateinit var playerWrapper: PlayerWrapper
+    lateinit var playerData: PlayerData
+    lateinit var playerTankData: PlayerTankData
+    lateinit var tankData: TankData
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainSubmitButton.setOnClickListener {
             playerName= binding.mainEditText.text.toString()
             getPlayerDataWhole()
+
         }
     }
 
@@ -51,26 +50,23 @@ class MainActivity : AppCompatActivity() {
             async {
                 getPlayerWrapperByApiCall(Constants.API_KEY, playerName)
             }.await()
-            while(playerWrapper==null){
+            while(!this@MainActivity::playerWrapper.isInitialized){
             }
             Log.d(TAG, playerWrapper.toString())
-            getPlayerDataByApiCall(Constants.API_KEY, playerWrapper!!.data[0].account_id)
-            getPlayerTankDataByApiCall(Constants.API_KEY,playerWrapper!!.data[0].account_id)
-            while(playerData==null||playerTankData==null||tankData==null){
+            getPlayerDataByApiCall(Constants.API_KEY, playerWrapper.data[0].account_id)
+            getPlayerTankDataByApiCall(Constants.API_KEY,playerWrapper.data[0].account_id)
+            while(!this@MainActivity::playerData.isInitialized||!this@MainActivity::playerTankData.isInitialized||!this@MainActivity::tankData.isInitialized){
 
             }
             Log.d("TAG", tankData.toString())
             Log.d(TAG, playerData.toString())
             Log.d(TAG,playerTankData.toString())
-            player = Player(playerData!!.data[0]!!.nickname,playerData!!.data[0]!!.account_id)
-            val playerDataActivityIntent = Intent(this@MainActivity, PlayerDataActivity::class.java).apply{
-                putExtra(EXTRA_PLAYER,player)
-                putExtra(EXTRA_PLAYERWRAPPER, playerWrapper)
-                putExtra(EXTRA_PLAYERDATA, playerData)
-                putExtra(EXTRA_PLAYERTANKDATA, playerTankData)
-                putExtra(EXTRA_TANKDATA, tankData)
-            }
-            this@MainActivity.startActivity(playerDataActivityIntent)
+            val playerDataActivityIntent = Intent(this@MainActivity, PlayerDataActivity::class.java)
+            playerDataActivityIntent.putExtra(EXTRA_PLAYERWRAPPER, playerWrapper)
+            playerDataActivityIntent.putExtra(EXTRA_PLAYERDATA, playerData)
+            playerDataActivityIntent.putExtra(EXTRA_PLAYERTANKDATA, playerTankData)
+            playerDataActivityIntent.putExtra(EXTRA_TANKDATA, tankData)
+            startActivity(playerDataActivityIntent)
 
         }
 
@@ -87,7 +83,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 Log.d(TAG, "onResponse: ${response.body()}")
                 if(response.body()?.status =="ok") {
-                    playerWrapper= response.body()
+                    playerWrapper= response.body()!!
                 }
             }
 
@@ -107,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 Log.d(TAG, "onResponse: ${response.body()}")
                 if(response.body()?.status=="ok"){
-                    playerData = response.body()
+                    playerData = response.body()!!
                 }
             }
 
@@ -127,7 +123,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 Log.d(TAG, "onResponse: ${response.body()}")
                 if(response.body()?.status=="ok"){
-                    playerTankData = response.body()
+                    playerTankData = response.body()!!
                 }
             }
 
@@ -146,7 +142,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 Log.d(TAG, "onResponse: ${response.body()}")
                 if(response.body()?.status=="ok"){
-                    tankData = response.body()
+                    tankData = response.body()!!
                 }
             }
 
