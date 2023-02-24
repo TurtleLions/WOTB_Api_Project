@@ -14,6 +14,7 @@ data class PlayerData(val status: String?, val data: Map<Int, IDData>):Parcelabl
                 val spotted: Int,
                 val max_frags_tank_id: Int,
                 val hits: Int,
+                val frags: Int,
                 val max_xp:Int,
                 val max_xp_tank_id:Int,
                 val wins:Int,

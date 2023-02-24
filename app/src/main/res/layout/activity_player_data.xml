@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:gravity="center"
-        android:text="TextView"
+        android:text="totalBattles"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_winrate" />
@@ -45,7 +45,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="survivalRate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_KDR" />
@@ -55,7 +55,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="damagePerGame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_survivalRate" />
@@ -65,7 +65,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="xpPerGame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_damagePerGame" />
@@ -75,7 +75,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="KDR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_deaths" />
@@ -85,7 +85,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="deaths"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_kills" />
@@ -95,7 +95,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="kills"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_damageRatio" />
@@ -105,7 +105,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="damageRatio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_damagedReceived" />
@@ -115,7 +115,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="damageReceived"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_damageDealt" />
@@ -125,7 +125,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="damageDealt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_accuracy" />
@@ -135,7 +135,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="accuracy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_losses" />
@@ -145,7 +145,7 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="losses"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_wins" />
@@ -155,9 +155,20 @@
         android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="TextView"
+        android:text="wins"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_totalBattles" />
+
+    <Button
+        android:id="@+id/button_goToTankData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tank Data"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_xpPerGame" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
