@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
             playerDataActivityIntent.putExtra(EXTRA_PLAYERTANKDATA, playerTankData)
             playerDataActivityIntent.putExtra(EXTRA_TANKDATA, tankData)
             startActivity(playerDataActivityIntent)
-
         }
 
     }

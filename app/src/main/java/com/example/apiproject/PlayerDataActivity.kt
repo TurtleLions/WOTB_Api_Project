@@ -1,5 +1,6 @@
 package com.example.apiproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +22,7 @@ class PlayerDataActivity:AppCompatActivity() {
         val playerWrapper = intent.getParcelableExtra<PlayerWrapper>(MainActivity.EXTRA_PLAYERWRAPPER)
         val playerData = intent.getParcelableExtra<PlayerData>(MainActivity.EXTRA_PLAYERDATA)
         val playerTankData = intent.getParcelableExtra<PlayerTankData>(MainActivity.EXTRA_PLAYERTANKDATA)
-        val TankData = intent.getParcelableExtra<TankData>(MainActivity.EXTRA_TANKDATA)
+        val tankData = intent.getParcelableExtra<TankData>(MainActivity.EXTRA_TANKDATA)
         Log.d(TAG, playerData.toString())
 
         val stats = playerData!!.data[playerWrapper!!.data[0].account_id]!!.statistics.all
@@ -43,7 +44,12 @@ class PlayerDataActivity:AppCompatActivity() {
         binding.textViewDamagePerGame.text = "Damage per Game: "+Math.round((stats.damage_dealt.toDouble()/(stats.battles).toDouble())).toString()
         binding.textViewXpPerGame.text = "XP per Game: "+Math.round((stats.xp.toDouble()/(stats.battles).toDouble())).toString()
         binding.buttonGoToTankData.setOnClickListener {
-
+            val tankListIntent = Intent(this@PlayerDataActivity, TankListActivity::class.java)
+            tankListIntent.putExtra(PlayerDataActivity.EXTRA_PLAYERWRAPPER, playerWrapper)
+            tankListIntent.putExtra(PlayerDataActivity.EXTRA_PLAYERDATA, playerData)
+            tankListIntent.putExtra(PlayerDataActivity.EXTRA_PLAYERTANKDATA, playerTankData)
+            tankListIntent.putExtra(PlayerDataActivity.EXTRA_TANKDATA, tankData)
+            startActivity(tankListIntent)
         }
     }
 }

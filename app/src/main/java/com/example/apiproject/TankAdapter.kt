@@ -1,6 +1,5 @@
 package com.example.apiproject
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +7,10 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
-class TankAdapter {
+class TankAdapter(var playerTankList: MutableList<PlayerTankDataIndividual>, var tankData:TankData):RecyclerView.Adapter<TankAdapter.ViewHolder>() {
     companion object{
         val TAG = "hi"
+        val EXTRA_COUNTY = "county"
     }
 
     /**
@@ -18,67 +18,66 @@ class TankAdapter {
      * (custom ViewHolder)
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textViewCounty: TextView
-        val textViewLastUpdated: TextView
-        val textViewWeeklyCases: TextView
+        val textViewName: TextView
+        val textViewWinrate: TextView
+        val textViewTankDesc: TextView
+        val textViewPremium: TextView
         val layout: ConstraintLayout
 
         init {
-            textViewCounty = view.findViewById(R.id.recycler_county)
-            textViewLastUpdated = view.findViewById(R.id.recycler_last_updated)
-            textViewWeeklyCases = view.findViewById(R.id.recycler_weekly)
+            textViewName = view.findViewById(R.id.tank_item_name)
+            textViewWinrate = view.findViewById(R.id.tank_item_winrate)
+            textViewTankDesc = view.findViewById(R.id.tank_item_tankdesc)
+            textViewPremium = view.findViewById(R.id.tank_item_premium)
             layout = view.findViewById(R.id.ConstraintLayout)
         }
     }
-
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.item_county_data, viewGroup, false)
+            .inflate(R.layout.item_tank_detail, viewGroup, false)
 
         return ViewHolder(view)
     }
-
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val context = viewHolder.textViewWeeklyCases.context
+        val context = viewHolder.textViewName.context
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.textViewCounty.text = dataSet[position].county
-        viewHolder.textViewLastUpdated.text = dataSet[position].lastUpdatedDate
-        viewHolder.textViewWeeklyCases.text = dataSet[position].metrics.weeklyNewCasesPer100k.toString()
-        when(dataSet[position].cdcTransmissionLevel){
-            0->{
-                context.resources.getColor(R.color.low_transmission,context.theme)
-                viewHolder.textViewCounty.setTextColor(context.resources.getColor(R.color.low_transmission))
-                viewHolder.textViewCounty.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,0)
-            }
-            1->{
-                context.resources.getColor(R.color.moderate_transmission,context.theme)
-                viewHolder.textViewCounty.setTextColor(context.resources.getColor(R.color.black))
-                viewHolder.textViewCounty.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_moderate_24,0,0,0)
-            }
-            2->{
-                context.resources.getColor(R.color.substantial_transmission,context.theme)
-                viewHolder.textViewCounty.setTextColor(context.resources.getColor(R.color.substantial_transmission))
-                viewHolder.textViewCounty.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_substantial_24,0,0,0)
-            }
-            3->{
-                context.resources.getColor(R.color.high_transmission,context.theme)
-                viewHolder.textViewCounty.setTextColor(context.resources.getColor(R.color.high_transmission))
-                viewHolder.textViewCounty.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_high_24,0,0,0)
-            }
+        val currentTankData = tankData.data[playerTankList[position].tank_id]
+        if(currentTankData == null){
+            playerTankList.removeAt(position)
         }
-        viewHolder.layout.setOnClickListener{
-            val detailActivity = Intent(it.context, CountyDetailActivity::class.java).apply {
-                putExtra(EXTRA_COUNTY, dataSet[position])
-            }
-            it.context.startActivity(detailActivity)
-
+        viewHolder.textViewName.text = currentTankData?.name
+        viewHolder.textViewWinrate.text =
+            (Math.round((playerTankList[position].all.wins.toDouble() / playerTankList[position].all.battles.toDouble()) * 10000) / 100.toDouble()).toString()
+        val tierTankDesc = "Tier " + currentTankData?.tier
+        val nationTankDesc = when (currentTankData?.nation) {
+            "usa" -> " American "
+            "uk" -> " British "
+            "germany" -> " German "
+            "ussr" -> " Soviet "
+            "france" -> " French "
+            "japan" -> " Japanese "
+            "china" -> " Chinese "
+            "european" -> " European "
+            else -> " Hybrid "
+        }
+        val typeTankDesc = when (currentTankData?.type) {
+            "heavyTank" -> "Heavy Tank"
+            "mediumTank" -> "Medium Tank"
+            "lightTank" -> "Light Tank"
+            "AT-SPG" -> "Tank Destroyer"
+            else -> "Tank"
+        }
+        viewHolder.textViewTankDesc.text = tierTankDesc + nationTankDesc + typeTankDesc
+        viewHolder.textViewPremium.text = when (currentTankData?.is_premium) {
+            true -> "Premium Tank"
+            else -> "Tech Tree Tank"
         }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = dataSet.size
+    override fun getItemCount() = playerTankList.size
 }
