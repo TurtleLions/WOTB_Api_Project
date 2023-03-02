@@ -1,16 +1,18 @@
 package com.example.apiproject
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 class TankAdapter(var playerTankList: MutableList<PlayerTankDataIndividual>, var tankData:TankData):RecyclerView.Adapter<TankAdapter.ViewHolder>() {
     companion object{
         val TAG = "hi"
-        val EXTRA_COUNTY = "county"
     }
 
     /**
@@ -22,6 +24,7 @@ class TankAdapter(var playerTankList: MutableList<PlayerTankDataIndividual>, var
         val textViewWinrate: TextView
         val textViewTankDesc: TextView
         val textViewPremium: TextView
+        val imageViewPicture: ImageView
         val layout: ConstraintLayout
 
         init {
@@ -29,6 +32,7 @@ class TankAdapter(var playerTankList: MutableList<PlayerTankDataIndividual>, var
             textViewWinrate = view.findViewById(R.id.tank_item_winrate)
             textViewTankDesc = view.findViewById(R.id.tank_item_tankdesc)
             textViewPremium = view.findViewById(R.id.tank_item_premium)
+            imageViewPicture = view.findViewById(R.id.tank_item_imageView)
             layout = view.findViewById(R.id.ConstraintLayout)
         }
     }
@@ -46,14 +50,17 @@ class TankAdapter(var playerTankList: MutableList<PlayerTankDataIndividual>, var
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         val currentTankData = tankData.data[playerTankList[position].tank_id]
-        if(currentTankData == null){
-            playerTankList.removeAt(position)
-        }
-        viewHolder.textViewName.text = currentTankData?.name
+        Log.d(TAG, currentTankData!!.images.normal)
+        Picasso.get()
+            .load(currentTankData!!.images.normal.replace("http","https"))
+            .resize(100, 100)
+            .centerCrop()
+            .into(viewHolder.imageViewPicture)
+        viewHolder.textViewName.text = currentTankData!!.name
         viewHolder.textViewWinrate.text =
             (Math.round((playerTankList[position].all.wins.toDouble() / playerTankList[position].all.battles.toDouble()) * 10000) / 100.toDouble()).toString()
-        val tierTankDesc = "Tier " + currentTankData?.tier
-        val nationTankDesc = when (currentTankData?.nation) {
+        val tierTankDesc = "Tier " + currentTankData.tier
+        val nationTankDesc = when (currentTankData.nation) {
             "usa" -> " American "
             "uk" -> " British "
             "germany" -> " German "
@@ -64,7 +71,7 @@ class TankAdapter(var playerTankList: MutableList<PlayerTankDataIndividual>, var
             "european" -> " European "
             else -> " Hybrid "
         }
-        val typeTankDesc = when (currentTankData?.type) {
+        val typeTankDesc = when (currentTankData.type) {
             "heavyTank" -> "Heavy Tank"
             "mediumTank" -> "Medium Tank"
             "lightTank" -> "Light Tank"
@@ -72,7 +79,7 @@ class TankAdapter(var playerTankList: MutableList<PlayerTankDataIndividual>, var
             else -> "Tank"
         }
         viewHolder.textViewTankDesc.text = tierTankDesc + nationTankDesc + typeTankDesc
-        viewHolder.textViewPremium.text = when (currentTankData?.is_premium) {
+        viewHolder.textViewPremium.text = when (currentTankData.is_premium) {
             true -> "Premium Tank"
             else -> "Tech Tree Tank"
         }

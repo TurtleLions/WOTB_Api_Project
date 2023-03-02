@@ -1,5 +1,6 @@
 package com.example.apiproject
 
+import android.content.Context
 import android.content.Intent
 import android.icu.lang.UCharacter.JoiningGroup.TAH
 import android.os.Binder
@@ -11,6 +12,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.apiproject.databinding.ActivityMainBinding
 import com.example.covidtracker.RetrofitHelper
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,20 +24,17 @@ class MainActivity : AppCompatActivity() {
         val EXTRA_PLAYERWRAPPER = "Player Wrapper"
         val EXTRA_PLAYERDATA = "Player Data"
         val EXTRA_PLAYERTANKDATA = "Player Tank Data"
-        val EXTRA_TANKDATA = "Tank Data"
     }
     lateinit var playerName: String
     lateinit var playerWrapper: PlayerWrapper
     lateinit var playerData: PlayerData
     lateinit var playerTankData: PlayerTankData
-    lateinit var tankData: TankData
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.d(TAG, "u")
-
         binding.mainSubmitButton.setOnClickListener {
             playerName= binding.mainEditText.text.toString()
             getPlayerDataWhole()
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     private fun getPlayerDataWhole(){
         Log.d(TAG, "ran")
         GlobalScope.launch {
-            getTankDataByApiCall(Constants.API_KEY)
+            //getTankDataByApiCall(Constants.API_KEY)
             async {
                 getPlayerWrapperByApiCall(Constants.API_KEY, playerName)
             }.await()
@@ -55,17 +54,16 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, playerWrapper.toString())
             getPlayerDataByApiCall(Constants.API_KEY, playerWrapper.data[0].account_id)
             getPlayerTankDataByApiCall(Constants.API_KEY,playerWrapper.data[0].account_id)
-            while(!this@MainActivity::playerData.isInitialized||!this@MainActivity::playerTankData.isInitialized||!this@MainActivity::tankData.isInitialized){
+            while(!this@MainActivity::playerData.isInitialized||!this@MainActivity::playerTankData.isInitialized){
 
             }
-            Log.d("TAG", tankData.toString())
+
             Log.d(TAG, playerData.toString())
             Log.d(TAG,playerTankData.toString())
             val playerDataActivityIntent = Intent(this@MainActivity, PlayerDataActivity::class.java)
             playerDataActivityIntent.putExtra(EXTRA_PLAYERWRAPPER, playerWrapper)
             playerDataActivityIntent.putExtra(EXTRA_PLAYERDATA, playerData)
             playerDataActivityIntent.putExtra(EXTRA_PLAYERTANKDATA, playerTankData)
-            playerDataActivityIntent.putExtra(EXTRA_TANKDATA, tankData)
             startActivity(playerDataActivityIntent)
         }
 
@@ -127,25 +125,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<PlayerTankData>, t: Throwable) {
-                Log.d(TAG, "onFailure: ${t.message}")
-            }
-        })
-    }
-    suspend fun getTankDataByApiCall(app_id: String){
-        val WOTBDataService = RetrofitHelper.getInstance().create(WOTBDataService::class.java)
-        val tankDataCall = WOTBDataService.getTankData(app_id)
-        tankDataCall.enqueue(object: Callback<TankData> {
-            override fun onResponse(
-                call: Call<TankData>,
-                response: Response<TankData>
-            ) {
-                Log.d(TAG, "onResponse: ${response.body()}")
-                if(response.body()?.status=="ok"){
-                    tankData = response.body()!!
-                }
-            }
-
-            override fun onFailure(call: Call<TankData>, t: Throwable) {
                 Log.d(TAG, "onFailure: ${t.message}")
             }
         })

@@ -1,4 +1,3 @@
 package com.example.apiproject
 
-class ApiCalls {
-}
+class ApiCalls

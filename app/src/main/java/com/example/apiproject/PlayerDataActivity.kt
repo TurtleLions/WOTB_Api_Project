@@ -12,7 +12,6 @@ class PlayerDataActivity:AppCompatActivity() {
         val EXTRA_PLAYERWRAPPER = "Player Wrapper"
         val EXTRA_PLAYERDATA = "Player Data"
         val EXTRA_PLAYERTANKDATA = "Player Tank Data"
-        val EXTRA_TANKDATA = "Tank Data"
     }
     private lateinit var binding: ActivityPlayerDataBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +21,6 @@ class PlayerDataActivity:AppCompatActivity() {
         val playerWrapper = intent.getParcelableExtra<PlayerWrapper>(MainActivity.EXTRA_PLAYERWRAPPER)
         val playerData = intent.getParcelableExtra<PlayerData>(MainActivity.EXTRA_PLAYERDATA)
         val playerTankData = intent.getParcelableExtra<PlayerTankData>(MainActivity.EXTRA_PLAYERTANKDATA)
-        val tankData = intent.getParcelableExtra<TankData>(MainActivity.EXTRA_TANKDATA)
         Log.d(TAG, playerData.toString())
 
         val stats = playerData!!.data[playerWrapper!!.data[0].account_id]!!.statistics.all
@@ -48,7 +46,6 @@ class PlayerDataActivity:AppCompatActivity() {
             tankListIntent.putExtra(PlayerDataActivity.EXTRA_PLAYERWRAPPER, playerWrapper)
             tankListIntent.putExtra(PlayerDataActivity.EXTRA_PLAYERDATA, playerData)
             tankListIntent.putExtra(PlayerDataActivity.EXTRA_PLAYERTANKDATA, playerTankData)
-            tankListIntent.putExtra(PlayerDataActivity.EXTRA_TANKDATA, tankData)
             startActivity(tankListIntent)
         }
     }

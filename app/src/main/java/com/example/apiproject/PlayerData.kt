@@ -30,9 +30,7 @@ data class PlayerData(val status: String?, val data: Map<Int, IDData>):Parcelabl
                 val win_and_survived:Int,
                 val survived_battles:Int,
                 val dropped_capture_points: Int
-            ):Parcelable{
-
-            }
+            ):Parcelable
         }
 
 

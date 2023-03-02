@@ -23,7 +23,5 @@ data class PlayerTankDataIndividual(val all: All, val account_id:Int, val tank_i
         val win_and_survived:Int,
         val survived_battles:Int,
         val dropped_capture_points:Int
-    ):Parcelable{
-
-    }
+    ):Parcelable
 }
