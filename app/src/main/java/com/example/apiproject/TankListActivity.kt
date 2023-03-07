@@ -2,6 +2,10 @@ package com.example.apiproject
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.apiproject.databinding.ActivityPlayerDataBinding
@@ -24,12 +28,21 @@ class TankListActivity:AppCompatActivity() {
     }
     private lateinit var binding: ActivityTankListBinding
     private lateinit var tankData: TankData
+    private lateinit var playerTankData: PlayerTankData
+    private lateinit var playerWrapper: PlayerWrapper
+    private lateinit var playerData: PlayerData
     private lateinit var adapter: TankAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         binding = ActivityTankListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+         playerTankData =
+            intent.getParcelableExtra<PlayerTankData>(PlayerDataActivity.EXTRA_PLAYERTANKDATA)!!
+        playerWrapper =
+            intent.getParcelableExtra<PlayerWrapper>(PlayerDataActivity.EXTRA_PLAYERWRAPPER)!!
+        playerData = intent.getParcelableExtra<PlayerData>(PlayerDataActivity.EXTRA_PLAYERDATA)!!
         getTankDataByApiCall(Constants.API_KEY)
 
 
@@ -46,12 +59,8 @@ class TankListActivity:AppCompatActivity() {
                 if(response.body()?.status=="ok"){
                     tankData = response.body()!!
                 }
-                val playerWrapper =
-                    intent.getParcelableExtra<PlayerWrapper>(PlayerDataActivity.EXTRA_PLAYERWRAPPER)
-                val playerData = intent.getParcelableExtra<PlayerData>(PlayerDataActivity.EXTRA_PLAYERDATA)
-                val playerTankData =
-                    intent.getParcelableExtra<PlayerTankData>(PlayerDataActivity.EXTRA_PLAYERTANKDATA)
-                val array = playerTankData!!.data.get(playerWrapper!!.data[0].account_id)!!.toMutableList()
+
+                var array = playerTankData!!.data.get(playerWrapper!!.data[0].account_id)!!.toMutableList()
                 val removeArray = mutableListOf<Int>()
                 var index = 0
                 for(vals in array){
@@ -63,6 +72,9 @@ class TankListActivity:AppCompatActivity() {
                 for(indexes in removeArray){
                     array.removeAt(indexes)
                 }
+                array= array.sortedWith(compareByDescending<PlayerTankDataIndividual> {
+                    tankData.data.get(it.tank_id)?.tier
+                }.thenBy { tankData.data.get(it.tank_id)?.name }) as MutableList<PlayerTankDataIndividual>
                 adapter = TankAdapter(array,tankData!!)
                 binding.recyclerviewTankList.adapter = adapter
                 binding.recyclerviewTankList.layoutManager = LinearLayoutManager(this@TankListActivity)
@@ -73,5 +85,42 @@ class TankListActivity:AppCompatActivity() {
                 Log.d(MainActivity.TAG, "onFailure: ${t.message}")
             }
         })
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.tank_list_menu, menu)
+
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection
+        return when (item.itemId) {
+
+            R.id.menu_Nation -> {
+                adapter.playerTankList = adapter.playerTankList.sortedWith(compareBy<PlayerTankDataIndividual> {
+                    tankData.data.get(it.tank_id)?.nation
+                }.thenByDescending { tankData.data.get(it.tank_id)?.tier}.thenBy { tankData.data.get(it.tank_id)?.name }) as MutableList<PlayerTankDataIndividual>
+                adapter.notifyDataSetChanged()
+                true
+            }
+            R.id.menu_Tier -> {
+                adapter.playerTankList = adapter.playerTankList.sortedWith(compareByDescending<PlayerTankDataIndividual> {
+                    tankData.data.get(it.tank_id)?.tier
+                }.thenBy { tankData.data.get(it.tank_id)?.name }) as MutableList<PlayerTankDataIndividual>
+                adapter.notifyDataSetChanged()
+                true
+            }
+            R.id.menu_Winrate -> {
+                adapter.playerTankList = adapter.playerTankList.sortedWith(compareByDescending<PlayerTankDataIndividual> {
+                    when(it.all.battles){
+                        0 -> 0.toDouble()
+                        else -> (Math.round((it.all.wins.toDouble() / it.all.battles.toDouble()) * 10000) / 100.toDouble())
+                    }
+                }.thenBy { tankData.data.get(it.tank_id)?.name })as MutableList<PlayerTankDataIndividual>
+                adapter.notifyDataSetChanged()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

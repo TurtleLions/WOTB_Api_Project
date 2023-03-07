@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19814814814814816" />
-        <entry key="app/src/main/res/layout/activity_player_data.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_player_data.xml" value="0.345679012345679" />
+        <entry key="app/src/main/res/layout/activity_tank_detail.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_tank_list.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_tank_detail.xml" value="0.4026268115942029" />
+        <entry key="app/src/main/res/menu/tank_list_menu.xml" value="0.19814814814814816" />
       </map>
     </option>
   </component>
