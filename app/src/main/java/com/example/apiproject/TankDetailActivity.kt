@@ -44,20 +44,20 @@ class TankDetailActivity:AppCompatActivity(){
             "AT-SPG" -> "Tank Destroyer"
             else -> "Tank"
         }
-        binding.textViewDetailTankDesc.text = tierTankDesc + nationTankDesc + typeTankDesc
-        binding.textViewDetailWinrate.text = "$winrate%"
-        binding.textViewDetailTotalBattles.text = "Battles: " + stats.battles.toString()
-        binding.textViewDetailWins.text = "Wins: " + stats.wins.toString()
-        binding.textViewDetailLosses.text = "Losses: " + stats.losses.toString()
-        binding.textViewDetailAccuracy.text = "Accuracy: " + (Math.round((stats.hits.toDouble()/stats.shots.toDouble())*10000)/100.toDouble()).toString() +"%"
-        binding.textViewDetailDamageDealt.text = "Damage Dealt: "+stats.damage_dealt
-        binding.textViewDetailDamagedReceived.text = "Damaged Received: "+stats.damage_received
-        binding.textViewDetailDamageRatio.text = "Damage Ratio: "+(Math.round((stats.damage_dealt.toDouble()/stats.damage_received.toDouble())*100)/100.toDouble()).toString()
-        binding.textViewDetailKills.text = "Kills: "+stats.frags
-        binding.textViewDetailDeaths.text = "Deaths: "+(stats.battles-stats.survived_battles).toString()
-        binding.textViewDetailKDR.text = "Kill Death Ratio: "+(Math.round((stats.frags.toDouble()/(stats.battles-stats.survived_battles).toDouble())*100)/100.toDouble()).toString()
-        binding.textViewDetailSurvivalRate.text = "Survival Rate: "+ (Math.round((stats.survived_battles.toDouble()/stats.battles.toDouble())*10000)/100.toDouble()).toString() +"%"
-        binding.textViewDetailDamagePerGame.text = "Damage per Game: "+Math.round((stats.damage_dealt.toDouble()/(stats.battles).toDouble())).toString()
-        binding.textViewDetailXpPerGame.text = "XP per Game: "+Math.round((stats.xp.toDouble()/(stats.battles).toDouble())).toString()
+        binding.textViewDetailTankDesc.text = getString(R.string.tank_desc, tierTankDesc, nationTankDesc, typeTankDesc)
+        binding.textViewDetailWinrate.text = getString(R.string.winrate,winrate)
+        binding.textViewDetailTotalBattles.text = getString(R.string.battles,stats.battles.toString())
+        binding.textViewDetailWins.text = getString(R.string.wins,stats.wins.toString())
+        binding.textViewDetailLosses.text = getString(R.string.losses,stats.losses.toString())
+        binding.textViewDetailAccuracy.text = getString(R.string.accuracy,(Math.round((stats.hits.toDouble()/stats.shots.toDouble())*10000)/100.toDouble()).toString())
+        binding.textViewDetailDamageDealt.text = getString(R.string.damage_dealt,stats.damage_dealt.toString())
+        binding.textViewDetailDamagedReceived.text = getString(R.string.damage_received,stats.damage_received.toString())
+        binding.textViewDetailDamageRatio.text = getString(R.string.damage_ratio,(Math.round((stats.damage_dealt.toDouble()/stats.damage_received.toDouble())*100)/100.toDouble()).toString())
+        binding.textViewDetailKills.text = getString(R.string.kills,stats.frags.toString())
+        binding.textViewDetailDeaths.text = getString(R.string.deaths,(stats.battles-stats.survived_battles).toString())
+        binding.textViewDetailKDR.text = getString(R.string.kill_death_ratio,(Math.round((stats.frags.toDouble()/(stats.battles-stats.survived_battles).toDouble())*100)/100.toDouble()).toString())
+        binding.textViewDetailSurvivalRate.text = getString(R.string.survival_rate,(Math.round((stats.survived_battles.toDouble()/stats.battles.toDouble())*10000)/100.toDouble()).toString())
+        binding.textViewDetailDamagePerGame.text = getString(R.string.damage_per_game,Math.round((stats.damage_dealt.toDouble()/(stats.battles).toDouble())).toString())
+        binding.textViewDetailXpPerGame.text = getString(R.string.xp_per_game,Math.round((stats.xp.toDouble()/(stats.battles).toDouble())).toString())
     }
 }

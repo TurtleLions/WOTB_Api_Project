@@ -1,24 +1,17 @@
 package com.example.apiproject
 
-import android.content.Context
 import android.content.Intent
-import android.icu.lang.UCharacter.JoiningGroup.TAH
-import android.os.Binder
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.apiproject.databinding.ActivityMainBinding
 import com.example.covidtracker.RetrofitHelper
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
+class StartingActivity : AppCompatActivity() {
     companion object{
         const val TAG = "Main Activity"
         val EXTRA_PLAYERWRAPPER = "Player Wrapper"
@@ -34,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d(TAG, "u")
         binding.mainSubmitButton.setOnClickListener {
             playerName= binding.mainEditText.text.toString()
             getPlayerDataWhole()
@@ -43,24 +35,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getPlayerDataWhole(){
-        Log.d(TAG, "ran")
         GlobalScope.launch {
-            //getTankDataByApiCall(Constants.API_KEY)
             async {
                 getPlayerWrapperByApiCall(Constants.API_KEY, playerName)
             }.await()
-            while(!this@MainActivity::playerWrapper.isInitialized){
+            while(!this@StartingActivity::playerWrapper.isInitialized){
             }
-            Log.d(TAG, playerWrapper.toString())
             getPlayerDataByApiCall(Constants.API_KEY, playerWrapper.data[0].account_id)
             getPlayerTankDataByApiCall(Constants.API_KEY,playerWrapper.data[0].account_id)
-            while(!this@MainActivity::playerData.isInitialized||!this@MainActivity::playerTankData.isInitialized){
+            while(!this@StartingActivity::playerData.isInitialized||!this@StartingActivity::playerTankData.isInitialized){
 
             }
-
-            Log.d(TAG, playerData.toString())
-            Log.d(TAG,playerTankData.toString())
-            val playerDataActivityIntent = Intent(this@MainActivity, PlayerDataActivity::class.java)
+            val playerDataActivityIntent = Intent(this@StartingActivity, PlayerDataActivity::class.java)
             playerDataActivityIntent.putExtra(EXTRA_PLAYERWRAPPER, playerWrapper)
             playerDataActivityIntent.putExtra(EXTRA_PLAYERDATA, playerData)
             playerDataActivityIntent.putExtra(EXTRA_PLAYERTANKDATA, playerTankData)

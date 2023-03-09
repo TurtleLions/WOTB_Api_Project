@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Api Project</string>
+    <string name="tank_desc">%1$s%2$s%3$s</string>
+    <string name="winrate">%1$s%%</string>
+    <string name="battles">Battles: %1$s</string>
+    <string name="wins">Wins: %1$s</string>
+    <string name="losses">Losses: %1$s</string>
+    <string name="accuracy">Accuracy: %1$s%%</string>
+    <string name="damage_dealt">Damage Dealt: %1$s</string>
+    <string name="damage_received">Damage Received: %1$s</string>
+    <string name="damage_ratio">Damage Ratio: %1$s</string>
+    <string name="kills">Kills: %1$s</string>
+    <string name="deaths">Deaths: %1$s</string>
+    <string name="kill_death_ratio">Kill Death Ratio: %1$s</string>
+    <string name="survival_rate">Survival Rate: %1$s%%</string>
+    <string name="damage_per_game">Damage per Game: %1$s</string>
+    <string name="xp_per_game">XP per Game: %1$s</string>
 </resources>

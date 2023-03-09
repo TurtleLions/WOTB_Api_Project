@@ -2,7 +2,6 @@ package com.example.apiproject
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.apiproject.databinding.ActivityPlayerDataBinding
 
@@ -18,29 +17,26 @@ class PlayerDataActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val playerWrapper = intent.getParcelableExtra<PlayerWrapper>(MainActivity.EXTRA_PLAYERWRAPPER)
-        val playerData = intent.getParcelableExtra<PlayerData>(MainActivity.EXTRA_PLAYERDATA)
-        val playerTankData = intent.getParcelableExtra<PlayerTankData>(MainActivity.EXTRA_PLAYERTANKDATA)
-        Log.d(TAG, playerData.toString())
-
+        val playerWrapper = intent.getParcelableExtra<PlayerWrapper>(StartingActivity.EXTRA_PLAYERWRAPPER)
+        val playerData = intent.getParcelableExtra<PlayerData>(StartingActivity.EXTRA_PLAYERDATA)
+        val playerTankData = intent.getParcelableExtra<PlayerTankData>(StartingActivity.EXTRA_PLAYERTANKDATA)
         val stats = playerData!!.data[playerWrapper!!.data[0].account_id]!!.statistics.all
-        Log.d(TAG, stats.toString())
         binding.textViewPlayerName.text = playerWrapper.data[0].nickname
         val winrate = (Math.round((stats.wins.toDouble()/stats.battles.toDouble())*10000)/100.toDouble()).toString()
-        binding.textViewWinrate.text = "$winrate%"
-        binding.textViewTotalBattles.text = "Battles: " + stats.battles.toString()
-        binding.textViewWins.text = "Wins: " + stats.wins.toString()
-        binding.textViewLosses.text = "Losses: " + stats.losses.toString()
-        binding.textViewAccuracy.text = "Accuracy: " + (Math.round((stats.hits.toDouble()/stats.shots.toDouble())*10000)/100.toDouble()).toString() +"%"
-        binding.textViewDamageDealt.text = "Damage Dealt: "+stats.damage_dealt
-        binding.textViewDamagedReceived.text = "Damaged Received: "+stats.damage_received
-        binding.textViewDamageRatio.text = "Damage Ratio: "+(Math.round((stats.damage_dealt.toDouble()/stats.damage_received.toDouble())*100)/100.toDouble()).toString()
-        binding.textViewKills.text = "Kills: "+stats.frags
-        binding.textViewDeaths.text = "Deaths: "+(stats.battles-stats.survived_battles).toString()
-        binding.textViewKDR.text = "Kill Death Ratio: "+(Math.round((stats.frags.toDouble()/(stats.battles-stats.survived_battles).toDouble())*100)/100.toDouble()).toString()
-        binding.textViewSurvivalRate.text = "Survival Rate: "+ (Math.round((stats.survived_battles.toDouble()/stats.battles.toDouble())*10000)/100.toDouble()).toString() +"%"
-        binding.textViewDamagePerGame.text = "Damage per Game: "+Math.round((stats.damage_dealt.toDouble()/(stats.battles).toDouble())).toString()
-        binding.textViewXpPerGame.text = "XP per Game: "+Math.round((stats.xp.toDouble()/(stats.battles).toDouble())).toString()
+        binding.textViewWinrate.text = getString(R.string.winrate,winrate)
+        binding.textViewTotalBattles.text = getString(R.string.battles,stats.battles.toString())
+        binding.textViewWins.text = getString(R.string.wins,stats.wins.toString())
+        binding.textViewLosses.text = getString(R.string.losses,stats.losses.toString())
+        binding.textViewAccuracy.text = getString(R.string.accuracy,(Math.round((stats.hits.toDouble()/stats.shots.toDouble())*10000)/100.toDouble()).toString())
+        binding.textViewDamageDealt.text = getString(R.string.damage_dealt,stats.damage_dealt.toString())
+        binding.textViewDamagedReceived.text = getString(R.string.damage_received,stats.damage_received.toString())
+        binding.textViewDamageRatio.text = getString(R.string.damage_ratio,(Math.round((stats.damage_dealt.toDouble()/stats.damage_received.toDouble())*100)/100.toDouble()).toString())
+        binding.textViewKills.text = getString(R.string.kills,stats.frags.toString())
+        binding.textViewDeaths.text = getString(R.string.deaths,(stats.battles-stats.survived_battles).toString())
+        binding.textViewKDR.text = getString(R.string.kill_death_ratio,(Math.round((stats.frags.toDouble()/(stats.battles-stats.survived_battles).toDouble())*100)/100.toDouble()).toString())
+        binding.textViewSurvivalRate.text = getString(R.string.survival_rate,(Math.round((stats.survived_battles.toDouble()/stats.battles.toDouble())*10000)/100.toDouble()).toString())
+        binding.textViewDamagePerGame.text = getString(R.string.damage_per_game,Math.round((stats.damage_dealt.toDouble()/(stats.battles).toDouble())).toString())
+        binding.textViewXpPerGame.text = getString(R.string.xp_per_game,Math.round((stats.xp.toDouble()/(stats.battles).toDouble())).toString())
         binding.buttonGoToTankData.setOnClickListener {
             val tankListIntent = Intent(this@PlayerDataActivity, TankListActivity::class.java)
             tankListIntent.putExtra(PlayerDataActivity.EXTRA_PLAYERWRAPPER, playerWrapper)

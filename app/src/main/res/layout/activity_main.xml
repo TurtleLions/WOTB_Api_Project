@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".StartingActivity">
 
     <EditText
         android:id="@+id/main_editText"
@@ -12,7 +12,7 @@
         android:layout_height="92dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="TurtleLions1"
+        android:text="Enter Player Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

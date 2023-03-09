@@ -1,19 +1,15 @@
 package com.example.apiproject
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.apiproject.databinding.ActivityPlayerDataBinding
 import com.example.apiproject.databinding.ActivityTankListBinding
 import com.example.covidtracker.RetrofitHelper
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -55,16 +51,16 @@ class TankListActivity:AppCompatActivity() {
                 call: Call<TankData>,
                 response: Response<TankData>
             ) {
-                Log.d(MainActivity.TAG, "onResponse: ${response.body()}")
+                Log.d(StartingActivity.TAG, "onResponse: ${response.body()}")
                 if(response.body()?.status=="ok"){
                     tankData = response.body()!!
                 }
 
-                var array = playerTankData!!.data.get(playerWrapper!!.data[0].account_id)!!.toMutableList()
+                var array = playerTankData.data[playerWrapper.data[0].account_id]!!.toMutableList()
                 val removeArray = mutableListOf<Int>()
                 var index = 0
                 for(vals in array){
-                    if(tankData?.data?.get(vals.tank_id) ==null){
+                    if(tankData.data.get(vals.tank_id) ==null){
                         removeArray.add(0,index)
                     }
                     index++
@@ -73,16 +69,16 @@ class TankListActivity:AppCompatActivity() {
                     array.removeAt(indexes)
                 }
                 array= array.sortedWith(compareByDescending<PlayerTankDataIndividual> {
-                    tankData.data.get(it.tank_id)?.tier
-                }.thenBy { tankData.data.get(it.tank_id)?.name }) as MutableList<PlayerTankDataIndividual>
-                adapter = TankAdapter(array,tankData!!)
+                    tankData.data[it.tank_id]?.tier
+                }.thenBy { tankData.data[it.tank_id]?.name }) as MutableList<PlayerTankDataIndividual>
+                adapter = TankAdapter(array, tankData)
                 binding.recyclerviewTankList.adapter = adapter
                 binding.recyclerviewTankList.layoutManager = LinearLayoutManager(this@TankListActivity)
 
             }
 
             override fun onFailure(call: Call<TankData>, t: Throwable) {
-                Log.d(MainActivity.TAG, "onFailure: ${t.message}")
+                Log.d(StartingActivity.TAG, "onFailure: ${t.message}")
             }
         })
     }
@@ -92,6 +88,7 @@ class TankListActivity:AppCompatActivity() {
 
         return true
     }
+    @SuppressLint("NotifyDataSetChanged")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {

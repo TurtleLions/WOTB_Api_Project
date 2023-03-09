@@ -1,7 +1,6 @@
 package com.example.apiproject
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import com.squareup.picasso.Picasso
 
 class TankAdapter(var playerTankList: MutableList<PlayerTankDataIndividual>, var tankData:TankData):RecyclerView.Adapter<TankAdapter.ViewHolder>() {
     companion object{
-        val TAG = "hi"
+        val TAG = "Tank Adapter"
         val EXTRA_CURRENTTANKDATA = "current tank data"
         val EXTRA_PLAYERTANKDATA = "player tank data"
     }
@@ -58,9 +57,8 @@ class TankAdapter(var playerTankList: MutableList<PlayerTankDataIndividual>, var
             .resize(100, 100)
             .centerInside()
             .into(viewHolder.imageViewPicture)
-        viewHolder.textViewName.text = currentTankData!!.name
-        viewHolder.textViewWinrate.text =
-            (Math.round((playerTankList[position].all.wins.toDouble() / playerTankList[position].all.battles.toDouble()) * 10000) / 100.toDouble()).toString()+"%"
+        viewHolder.textViewName.text = currentTankData.name
+        viewHolder.textViewWinrate.text =context.getString(R.string.winrate,(Math.round((playerTankList[position].all.wins.toDouble() / playerTankList[position].all.battles.toDouble()) * 10000) / 100.toDouble()).toString())
         val tierTankDesc = "Tier " + currentTankData.tier
         val nationTankDesc = when (currentTankData.nation) {
             "usa" -> " American "
@@ -80,7 +78,7 @@ class TankAdapter(var playerTankList: MutableList<PlayerTankDataIndividual>, var
             "AT-SPG" -> "Tank Destroyer"
             else -> "Tank"
         }
-        viewHolder.textViewTankDesc.text = tierTankDesc + nationTankDesc + typeTankDesc
+        viewHolder.textViewTankDesc.text = context.getString(R.string.tank_desc, tierTankDesc, nationTankDesc, typeTankDesc)
         viewHolder.textViewPremium.text = when (currentTankData.is_premium) {
             true -> "Premium Tank"
             else -> "Tech Tree Tank"

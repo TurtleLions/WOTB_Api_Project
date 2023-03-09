@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/textView_totalBattles"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:gravity="center"
@@ -42,7 +42,7 @@
 
     <TextView
         android:id="@+id/textView_survivalRate"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="survivalRate"
@@ -52,7 +52,7 @@
 
     <TextView
         android:id="@+id/textView_damagePerGame"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="damagePerGame"
@@ -62,7 +62,7 @@
 
     <TextView
         android:id="@+id/textView_xpPerGame"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="xpPerGame"
@@ -72,7 +72,7 @@
 
     <TextView
         android:id="@+id/textView_KDR"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="KDR"
@@ -82,7 +82,7 @@
 
     <TextView
         android:id="@+id/textView_deaths"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="deaths"
@@ -92,7 +92,7 @@
 
     <TextView
         android:id="@+id/textView_kills"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="kills"
@@ -102,7 +102,7 @@
 
     <TextView
         android:id="@+id/textView_damageRatio"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="damageRatio"
@@ -112,7 +112,7 @@
 
     <TextView
         android:id="@+id/textView_damagedReceived"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="damageReceived"
@@ -122,7 +122,7 @@
 
     <TextView
         android:id="@+id/textView_damageDealt"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="damageDealt"
@@ -132,7 +132,7 @@
 
     <TextView
         android:id="@+id/textView_accuracy"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="accuracy"
@@ -142,7 +142,7 @@
 
     <TextView
         android:id="@+id/textView_losses"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="losses"
@@ -152,7 +152,7 @@
 
     <TextView
         android:id="@+id/textView_wins"
-        android:layout_width="159dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="wins"
